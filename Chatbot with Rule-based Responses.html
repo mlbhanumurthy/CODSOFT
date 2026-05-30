@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Chatbot</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, sans-serif;
+        }
+
+        body{
+            background:#f4f4f4;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height:100vh;
+        }
+
+        .container{
+            width:400px;
+            background:#fff;
+            border-radius:10px;
+            box-shadow:0 4px 10px rgba(0,0,0,0.1);
+            overflow:hidden;
+        }
+
+        .header{
+            background:#4a90e2;
+            color:white;
+            text-align:center;
+            padding:15px;
+            font-size:22px;
+        }
+
+        #chatBox{
+            height:350px;
+            padding:15px;
+            overflow-y:auto;
+        }
+
+        .message{
+            margin-bottom:12px;
+            line-height:1.5;
+        }
+
+        .user{
+            text-align:right;
+            color:#1a73e8;
+        }
+
+        .bot{
+            text-align:left;
+            color:#2e7d32;
+        }
+
+        .input-area{
+            display:flex;
+            border-top:1px solid #ddd;
+        }
+
+        input{
+            flex:1;
+            padding:12px;
+            border:none;
+            outline:none;
+        }
+
+        button{
+            padding:12px 18px;
+            border:none;
+            background:#4a90e2;
+            color:white;
+            cursor:pointer;
+        }
+
+        button:hover{
+            background:#357abd;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">Simple Chatbot</div>
+
+    <div id="chatBox">
+        <div class="message bot">
+            <strong>Bot :</strong> Hello! How can I help you today?
+        </div>
+    </div>
+
+    <div class="input-area">
+        <input type="text" id="userInput" placeholder="Type your message">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div>
+
+<script>
+function sendMessage() {
+    let input = document.getElementById("userInput");
+    let text = input.value.trim();
+
+    if (text === "") {
+        return;
+    }
+
+    let chatBox = document.getElementById("chatBox");
+
+    chatBox.innerHTML += `
+        <div class="message user">
+            <strong>You :</strong> ${text}
+        </div>
+    `;
+
+    let message = text.toLowerCase();
+    let response;
+
+    if (message.includes("hello") || message.includes("hi")) {
+        response = "Hello! Nice to meet you.";
+    } else if (message.includes("how are you")) {
+        response = "I'm doing well. Thanks for asking.";
+    } else if (message.includes("name")) {
+        response = "I am a simple rule-based chatbot.";
+    } else if (message.includes("help")) {
+        response = "You can greet me, ask my name, ask how I am, or check the time.";
+    } else if (message.includes("time")) {
+        response = "Current time is " + new Date().toLocaleTimeString();
+    } else if (message.includes("bye")) {
+        response = "Goodbye! Have a great day.";
+    } else {
+        response = "Sorry, I couldn't understand your message.";
+    }
+
+    chatBox.innerHTML += `
+        <div class="message bot">
+            <strong>Bot :</strong> ${response}
+        </div>
+    `;
+
+    input.value = "";
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+document.getElementById("userInput").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        sendMessage();
+    }
+});
+</script>
+
+</body>
+</html>
